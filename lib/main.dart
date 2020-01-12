@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DASI Board',
       theme: ThemeData(
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatefulWidget{
+class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
-        items:[
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.filter_1),
             title: Text('To Do'),
@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void onTabTapped(int index){
+  void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
