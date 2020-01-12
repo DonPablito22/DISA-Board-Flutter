@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +41,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    // post = fetchPost();
   }
 
   // This widget is the root of your application.
@@ -84,6 +84,7 @@ class TodoPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('test');
     return Center(
       child: FutureBuilder<Post>(
         future: post,
@@ -108,19 +109,28 @@ class DoingPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: FutureBuilder<PostReply>(
-        future: post,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data.test);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
+      child: FlatButton.icon(
+        color: Colors.red,
+        icon: Icon(Icons.check),
+        label: Text('test'),
+        onPressed: (){
+          sendPost();
+        }
+      )
 
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        ),
+      // child: FutureBuilder<PostReply>(
+      //   future: post,
+      //     builder: (context, snapshot) {
+      //       if (snapshot.hasData) {
+      //         return Text(snapshot.data.test);
+      //       } else if (snapshot.hasError) {
+      //         return Text("${snapshot.error}");
+      //       }
+
+      //       // By default, show a loading spinner.
+      //       return CircularProgressIndicator();
+      //     },
+      //   ),
     );
   }
 }
@@ -149,11 +159,9 @@ Future<Post> fetchPost() async{
 }
 
 Future<PostReply> sendPost() async{
-  var map = new Map<String, dynamic>();
-      map["title"] = 'PhoneAppTest';
-  debugPrint(map.toString());
+  String title = "{\"title\":\"TitleAppFlutter\"}";//jsonEncode({'title':'TitleAppFlutter'});
 
-  return http.post('http://35.184.87.160/task', body: map).then((http.Response response){
+  return http.post('http://35.184.87.160/task', body: json.encode({"title":"test2"}), headers:{ HttpHeaders.contentTypeHeader: 'application/json'}).then((http.Response response){
     if(response.statusCode == 201){
       return PostReply.fromJson(json.decode(response.body));
     }else{
